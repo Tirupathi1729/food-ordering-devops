@@ -1,0 +1,51 @@
+services:
+  app:
+    image: tirupathi1729/food-backend:1.0
+    ports:
+      - "8080:5000"
+    environment:
+      DB_HOST: db
+      DB_USER: fooduser
+      DB_PASSWORD: ${MYSQL_PASSWORD}
+      DB_NAME: fooddb
+    networks:
+      - food_network
+    deploy:
+      replicas: 2
+      restart_policy:
+        condition: on-failure
+      update_config:
+        parallelism: 1
+        order: start-first
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 256M
+
+  db:
+    image: tirupathi1729/food-database:1.0
+    environment:
+      MYSQL_DATABASE: fooddb
+      MYSQL_USER: fooduser
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - food_network
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == manager
+      restart_policy:
+        condition: on-failure
+
+networks:
+  food_network:
+    driver: overlay
+
+volumes:
+  db_data:
+    external: true
+    name: food-ordering_db_data

@@ -1,0 +1,575 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Food Ordering Application</title>
+
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: #f3f7fb;
+  color: #20314c;
+  font-size: 14px;
+}
+
+header {
+  background: #1c293a;
+  color: white;
+  padding: 18px 4%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.logo {
+  font-size: 23px;
+  font-weight: bold;
+}
+
+.logo span {
+  color: #ffb51b;
+}
+
+nav {
+  display: flex;
+  gap: 22px;
+  align-items: center;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+nav a:hover {
+  color: #ffbd2e;
+}
+
+main {
+  width: 94%;
+  max-width: 1400px;
+  margin: 25px auto;
+}
+
+.hero {
+  background: linear-gradient(110deg, #172435, #354b50);
+  color: white;
+  border-radius: 10px;
+  padding: 32px 4%;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.hero h2 {
+  font-size: 30px;
+  margin-bottom: 12px;
+}
+
+.hero p {
+  color: #d4dfeb;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.hero-food {
+  font-size: clamp(45px, 7vw, 75px);
+}
+
+.card {
+  background: white;
+  border: 1px solid #e2eaf4;
+  border-radius: 10px;
+  padding: 25px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 14px #233d5b0c;
+}
+
+.section-heading {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.heading-icon {
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: white;
+  font-size: 23px;
+}
+
+.green {
+  background: linear-gradient(135deg, #19c37d, #079968);
+}
+
+.purple {
+  background: linear-gradient(135deg, #7548ff, #5125ed);
+}
+
+.section-heading h2 {
+  font-size: 22px;
+  margin-bottom: 7px;
+}
+
+.section-heading p {
+  color: #7184a2;
+  line-height: 1.5;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 2fr 1.7fr 1fr auto;
+  gap: 18px;
+  align-items: end;
+}
+
+label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 9px;
+}
+
+input, select {
+  width: 100%;
+  min-width: 0;
+  height: 47px;
+  padding: 0 12px;
+  border: 1px solid #d3deeb;
+  border-radius: 6px;
+  background: white;
+  color: #283b57;
+  font-size: 15px;
+}
+
+input:focus, select:focus {
+  outline: 2px solid #c5e9dc;
+  border-color: #13a878;
+}
+
+button {
+  cursor: pointer;
+  font-family: inherit;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.order-btn {
+  height: 47px;
+  padding: 0 20px;
+  border: none;
+  border-radius: 6px;
+  background: linear-gradient(110deg, #12ad79, #079c70);
+  color: white;
+  font-size: 15px;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.order-btn:hover {
+  filter: brightness(0.95);
+}
+
+.message {
+  margin-top: 14px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.orders-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.refresh-btn {
+  padding: 11px 15px;
+  border: 1px solid #ccd9e9;
+  border-radius: 6px;
+  background: white;
+  color: #315b9d;
+  font-weight: bold;
+}
+
+.refresh-btn:hover {
+  background: #f0f5fc;
+}
+
+.table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  border: 1px solid #e3ebf5;
+  border-radius: 6px;
+}
+
+table {
+  width: 100%;
+  min-width: 650px;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+thead {
+  background: #f0f4fa;
+  color: #244776;
+}
+
+th, td {
+  padding: 15px 16px;
+  border-bottom: 1px solid #e7edf5;
+}
+
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+tbody tr:hover {
+  background: #f8fbff;
+}
+
+td {
+  color: #405574;
+}
+
+.status {
+  display: inline-block;
+  padding: 6px 11px;
+  border-radius: 7px;
+  background: #d9f8e8;
+  color: #07864e;
+  font-weight: bold;
+}
+
+.empty {
+  text-align: center;
+  padding: 28px;
+  color: #75839a;
+}
+
+footer {
+  text-align: center;
+  background: #edf2f8;
+  color: #617593;
+  padding: 22px 12px;
+  line-height: 1.8;
+  border-top: 1px solid #e2e9f2;
+}
+
+@media (max-width: 900px) {
+  .form-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .hero h2 {
+    font-size: 25px;
+  }
+}
+
+@media (max-width: 520px) {
+  header {
+    padding: 18px;
+  }
+
+  .logo {
+    font-size: 20px;
+  }
+
+  nav {
+    gap: 14px;
+  }
+
+  main {
+    width: 94%;
+    margin-top: 16px;
+  }
+
+  .hero {
+    padding: 23px 20px;
+  }
+
+  .hero h2 {
+    font-size: 22px;
+  }
+
+  .hero-food {
+    font-size: 38px;
+  }
+
+  .card {
+    padding: 17px;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .order-btn {
+    width: 100%;
+  }
+
+  .section-heading h2 {
+    font-size: 19px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">👨‍🍳 Food Ordering <span>Application</span></div>
+  <nav>
+    <a href="/">🏠 Home</a>
+    <a href="#" onclick="loadOrders(); return false;">⟳ Refresh Orders</a>
+  </nav>
+</header>
+
+<main>
+
+  <section class="hero">
+    <div>
+      <h2>🍴 Good Food, Good Mood!</h2>
+      <p>Order your favorite food, fresh and fast.</p>
+    </div>
+    <div class="hero-food">🍔 🍟</div>
+  </section>
+
+  <section class="card">
+    <div class="section-heading">
+      <div class="heading-icon green">🛒</div>
+      <div>
+        <h2>Place New Order</h2>
+        <p>Fill in the details below to place your order.</p>
+      </div>
+    </div>
+
+    <form id="orderForm">
+      <div class="form-grid">
+        <div>
+          <label for="customer">Customer Name</label>
+          <input id="customer" type="text" maxlength="100"
+                 placeholder="Enter customer name" required>
+        </div>
+
+        <div>
+          <label for="item">Food Item</label>
+          <select id="item" required>
+            <option value="Dosa">🥞 Dosa</option>
+            <option value="Burger">🍔 Burger</option>
+            <option value="Pizza">🍕 Pizza</option>
+            <option value="Biryani">🍛 Biryani</option>
+            <option value="Pasta">🍝 Pasta</option>
+            <option value="French Fries">🍟 French Fries</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="quantity">Quantity</label>
+          <input id="quantity" type="number" min="1" max="50"
+                 value="1" required>
+        </div>
+
+        <button class="order-btn" id="submitBtn" type="submit">
+          🛒 Place Order
+        </button>
+      </div>
+      <p class="message" id="message" role="status" aria-live="polite"></p>
+    </form>
+  </section>
+
+  <section class="card">
+    <div class="orders-top">
+      <div class="section-heading">
+        <div class="heading-icon purple">☷</div>
+        <div>
+          <h2>Orders</h2>
+          <p>View all placed orders.</p>
+        </div>
+      </div>
+
+      <button class="refresh-btn" type="button" onclick="loadOrders()">
+        ⟳ Refresh Orders
+      </button>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Customer Name</th>
+            <th>Item</th>
+            <th>Quantity</th>
+            <th>Order Time</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="ordersBody">
+          <tr><td colspan="6" class="empty">Loading orders...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  Food Ordering Application | Powered by Flask &amp; MySQL | Dockerized
+</footer>
+
+<script>
+const form = document.getElementById("orderForm");
+const message = document.getElementById("message");
+const submitBtn = document.getElementById("submitBtn");
+const ordersBody = document.getElementById("ordersBody");
+
+function showMessage(text, success) {
+  message.textContent = text;
+  message.style.color = success ? "#07864e" : "#d93025";
+}
+
+function addCell(row, value) {
+  const td = document.createElement("td");
+  td.textContent = value == null ? "-" : String(value);
+  row.appendChild(td);
+  return td;
+}
+
+function showEmpty(text) {
+  ordersBody.replaceChildren();
+  const row = document.createElement("tr");
+  const td = addCell(row, text);
+  td.colSpan = 6;
+  td.className = "empty";
+  ordersBody.appendChild(row);
+}
+
+async function loadOrders() {
+  showEmpty("Loading orders...");
+
+  try {
+    const response = await fetch("/api/orders");
+    const result = await response.json().catch(() => null);
+
+    if (!response.ok) {
+      throw new Error(
+        result?.error || result?.message || `Request failed (${response.status})`
+      );
+    }
+
+    const orders = Array.isArray(result)
+      ? result
+      : result?.orders ?? result?.data;
+
+    if (!Array.isArray(orders)) {
+      throw new Error("The orders API returned an unexpected format.");
+    }
+
+    if (orders.length === 0) {
+      showEmpty("No orders yet. Place your first order! 🍕");
+      return;
+    }
+
+    ordersBody.replaceChildren();
+
+    orders.forEach(order => {
+      const row = document.createElement("tr");
+
+      addCell(row, order.id ?? order.order_id);
+      addCell(row, order.customer ?? order.customer_name);
+      addCell(row, order.food ?? order.item ?? order.food_item);
+      addCell(row, order.quantity);
+      addCell(row, order.order_time ?? order.created_at ?? order.createdAt);
+
+      const statusCell = document.createElement("td");
+      const badge = document.createElement("span");
+      badge.className = "status";
+      badge.textContent = order.status ?? "Placed";
+      statusCell.appendChild(badge);
+      row.appendChild(statusCell);
+
+      ordersBody.appendChild(row);
+    });
+  } catch (error) {
+    showEmpty("Unable to load orders: " + error.message);
+    console.error("Load orders failed:", error);
+  }
+}
+
+form.addEventListener("submit", async event => {
+  event.preventDefault();
+
+  const customer = document.getElementById("customer").value.trim();
+  const food = document.getElementById("item").value;
+  const quantity = Number(document.getElementById("quantity").value);
+
+  if (!customer) {
+    showMessage("Please enter a customer name.", false);
+    return;
+  }
+
+  if (!Number.isInteger(quantity) || quantity < 1 || quantity > 50) {
+    showMessage("Quantity must be a whole number between 1 and 50.", false);
+    return;
+  }
+
+  const payload = { customer, food, quantity };
+
+  submitBtn.disabled = true;
+  showMessage("Placing your order...", true);
+
+  try {
+    const response = await fetch("/api/orders", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    });
+
+    const result = await response.json().catch(() => ({}));
+
+    if (!response.ok) {
+      throw new Error(
+        result.error || result.message || `Request failed (${response.status})`
+      );
+    }
+
+    showMessage("🎉 Order placed successfully!", true);
+    form.reset();
+    document.getElementById("quantity").value = 1;
+    await loadOrders();
+  } catch (error) {
+    showMessage("Could not place order: " + error.message, false);
+    console.error("Place order failed:", error);
+  } finally {
+    submitBtn.disabled = false;
+  }
+});
+
+loadOrders();
+</script>
+
+</body>
+</html>
+
